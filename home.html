@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background-color:antiquewhite;
+        }
+      
+    button {
+        position: fixed;
+        cursor: pointer;
+        bottom: 15vh;
+        left: 28.5vw; 
+        z-index: 1;   
+        }
+
+    p {
+        position: fixed;
+        font-family: Helvetica;
+        text-align: justify;
+        color:aliceblue;
+        text-shadow: 5px 5px 20px rgb(34, 0, 255);
+        font-size: 18px;
+        top: 68vh;
+        right: 30vw;  
+        left: 30vw;
+        z-index: 1;
+        }
+
+    #focus {
+        position: fixed;
+        width: 150px;
+        height: 40px;
+        top: 1.5vh;
+        left: 46vw;
+        z-index: 1;
+    }
+
+    #fan {
+        position: fixed;
+        bottom: 5vh;
+        right: 5vw; 
+        z-index: 1;
+    }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: -1;
+      }
+
+      .container {
+        text-align: center;
+        z-index: -1;
+      }
+
+      video {
+        position: fixed;
+        filter:grayscale(100%);
+        width: 640px;
+        height: 480px;
+        top: 15vh;
+        right: 28vw;
+        z-index: -1;
+      }
+
+      .controls {
+        margin-top: 10px;
+        z-index: -1;
+      }
+
+      .controls input {
+        padding: 5px;
+        width: 100px;
+        z-index: -1;
+      }
+
+      .controls button {
+        position: fixed;
+        cursor: pointer;
+        left: 68vw;
+        right: 28vw;
+        z-index: -1;
+      }
+
+      #photos {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        z-index: -1;
+      }
+
+      .photo {
+        margin: 10px;
+        position: relative;
+        z-index: -1;
+      }
+
+      .photo img {
+        width: 160px;
+        height: 120px;
+        z-index: -1;
+      }
+
+      .photo button {
+        position: absolute;
+        bottom: 5px;
+        left: 27.5px;
+        padding: 5px;
+        cursor: pointer;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+     <a href="audience.html">
+    <img id="fan" src="fan.gif">
+    </a>
+
+    <img id="focus" src="focus.png">
+
+    <div id="button"></div>
+    <button onclick="onButtonClick()" id="myButton">snapshot</button>
+    <p id="randomQuote"></p>
+
+    <div class="container">
+      <video id="video" autoplay></video>
+      <div class="controls">
+        <input type="number" id="timer" min="0" placeholder="Timer (Sec)" />
+        <button id="capture-btn">capture</button>
+      </div>
+      <div id="photos"></div>
+    </div>
+
+    <script>
+      var quote = ["WOMAN CRYING BED ALONE STOCK PHOTOS AND IMAGES (999).", "A LONELY WOMAN IS CRYING ALONE, HER MASCARA HAS FLOWED.", "SHE SITS ON A BED IN A BRIGHT ROOM.", "THE BEAUTIFUL GIRL IS CRYING, SHE IS UPSET.", "ILL YOUNG WOMAN SITTING ON BED WITH HANDS PUTTING ON FOREHEAD COVERING FACE.", "SAD GIRL CRYING FEELING UPSET IN BEDROOM AT HOME.", "DEPRESSED FEMALE ALONE IN COZY MODERN DESIGN APARTMENT LONELY BAD MOOD.", "SIDE VIEW OF SAD LITTLE GIRL HUGGING KNEE, SOBBING WITH HEAD BOWED AND CRYING SITTING ALONE ON BED IN BEDROOM.", "UNHAPPY CHILD FEELING PRESSURE, THINKING OF KID PROBLEMS.", "CONCEPT OF CHILD DEPRESSION.", "HOME QUARANTINE SELF-ISOLATION WOMAN TIRED BORED CANNOT GET OUT OF BED STAYING ASLEEP LATE AFTERNOON SLEEPINESS SLEEP DISORDER.", "SAD SINGLE GIRL CRYING ALONE.", "TOP VIEW OF UPSET LITTLE GIRL HUGGING KNEE, SOBBING WITH HEAD BOWED AND CRYING SITTING ALONE ON BED IN BEDROOM.", "UNHAPPY YOUNG WOMAN SUFFERING FROM DEPRESSION, HIDING HER FACE AND CRYING ON BED AT HOME ($6).", "SAD DEPRESSED WOMAN LYING IN FETAL POSITION ON BED.", "LONELY UNHAPPY ATTRACTIVE FEMALE HOLDING HER KNEES WITH ARMS, SOBBING AND CRYING ALONE IN BED VIDEO ($49 HD, $68 4K).", "40 WARM WAYS TO COMFORT A GIRL WHEN SHE IS CRYING, SAD, OR FEELING DOWN.", "215,904 CRYING WOMAN STOCK PHOTOS, 3D OBJECTS, VECTORS, AND ILLUSTRATIONS.", "GIRL OR WOMAN CRIES.", "WOMEN, ONE WOMAN ONLY, CRYING, SHOUTING, ANGER."];
+
+      function onButtonClick() {
+      var randomQuote = Math.floor(Math.random() * quote.length);
+      document.getElementById("randomQuote").innerHTML = quote[randomQuote];
+      }
+      
+      
+      var video = document.getElementById("video");
+      var captureBtn = document.getElementById("capture-btn");
+      var photosContainer = document.getElementById("photos");
+      var timerInput = document.getElementById("timer");
+
+      // Access the camera and stream to video
+      navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+        video.srcObject = stream;
+      });
+
+      // Capture photo with timer
+      captureBtn.addEventListener("click", () => {
+        var timer = timerInput.value - 1;
+        if (timer > 0) {
+          captureBtn.disabled = true;
+          var countdown = setInterval(() => {
+            captureBtn.textContent = `Capture (${timer})`;
+            if (timer <= 0) {
+              clearInterval(countdown);
+              captureBtn.textContent = "Capture";
+              captureBtn.disabled = false;
+              capturePhoto();
+            }
+            timer--;
+          }, 1000);
+        } else {
+          capturePhoto();
+        }
+      });
+
+      function capturePhoto() {
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // Draw the current video frame to the canvas
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        var dataURL = canvas.toDataURL("image/png");
+
+        // Create image list from captured photo
+        var photoDiv = document.createElement("div");
+        photoDiv.classList.add("photo");
+
+        var img = document.createElement("img");
+        img.src = dataURL;
+        photoDiv.appendChild(img);
+
+        // Create download image feature
+        var downloadBtn = document.createElement("button");
+        downloadBtn.textContent = "Download";
+        downloadBtn.addEventListener("click", () => {
+          var a = document.createElement("a");
+          a.href = dataURL;
+          a.download = "photo.png";
+          a.click();
+        });
+
+        photoDiv.appendChild(downloadBtn);
+        photosContainer.appendChild(photoDiv);
+      }
+    </script>
+  </body>
+</html>
+
+
+<!--https://github.com/davidgrcias/photoboothjs/blob/main/index.html-->
+<!--fan from https://www.are.na/block/29272224-->
+<!--focus from https://www.are.na/block/7041609-->

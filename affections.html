@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  top: 40vh;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 400px;
+  background-color: #555;
+  color: #fff;
+  font-family: Helvetica;
+  text-align: justify;
+  border-radius: 10px;
+  padding: 10px 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  bottom: 47vh;
+  left: 13vw;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+</style>
+</head>
+<body style="text-align:center">
+
+<div class="popup" onclick="myFunction()">
+    <img id="door" src="door.gif">
+  <span class="popuptext" id="myPopup">I fried in the sun as you tried to move a cloud
+                convinced that you had superhuman powers and could heal by the laying on of hands
+                your moonlight prowls in graveyards, your fascination with corpses and embalming, 
+                your obsession with mysticism, addicted to the study of the bible, mystical 
+                religion, numerology, psychic phenomena, and the belief of life after death
+                I have often given it a lot of thought and have often felt that maybe there 
+                was something to it
+                I would have broken arms and legs for you
+                the sky is desert clear and 
+                God it's hot  </span>
+</div>
+
+
+
+<script>
+// When the user clicks on div, open the popup
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+</script>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+    <html>
+            <style>
+
+                body {
+                background-color:antiquewhite;
+                }
+            </style>
+         <body>
+            
+        </body>
+    </html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+    <html>
+         <style>
+            #vain {
+                position:fixed;
+                width: 80px;
+                height: 80px;
+                bottom: 5vh;
+                left: 2vw;
+                }
+
+            video {
+                position: fixed;
+                width: 50vw;
+                top: 25vh;
+                right: 5vw;
+                z-index: 10;
+                }
+
+            body {
+                background-color:antiquewhite;
+                }
+
+            .video-background {
+                position: fixed; /* Fixes the video to the viewport */
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1; /* Sends the video to the background, behind other content */
+                overflow: hidden; /* Ensures no scrollbars appear due to the video wrapper */
+                }
+
+            .video-background iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 150vw; /* Ensures the video covers the full width of the viewport */
+                height: 150vh; /* Ensures the video covers the full height of the viewport */
+                /* This ensures the video covers the area responsively while maintaining aspect ratio */
+                min-width: 100%;
+                min-height: 100%;
+                }
+         </style>
+
+        <body>
+
+            <a href="vain.html">
+            <img id="vain" src="vain.png">
+            </a>
+      
+
+            <video width="720" height="640" autoplay>
+            <source src="priest.mp4" type="video/mp4">
+            <source src="movie.ogg" type="video/ogg">
+            </video>
+           
+         
+            <div class="video-background">
+            <iframe
+                src="https://www.youtube.com/embed/ww986pYF46E?si=rrosx55hXV84cmtd&amp;controls=0"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+            ></iframe>
+            </div>
+
+        </body> 
+    </html>
